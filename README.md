@@ -6,6 +6,8 @@
 
 - **[wechat-miniprogram-ci](./wechat-miniprogram-ci/)** — 使用微信官方 miniprogram-ci 对 uni-app 微信小程序执行发布前预检、生产构建和代码上传
 - **[yunxiao-bug-fix](./yunxiao-bug-fix/)** — 云效（yunxiao / 阿里云 DevOps）缺陷工单的端到端修复 SOP
+- **[git-commit](./git-commit/)** — 审查工作区改动，生成规范、原子化的提交信息并安全创建 Git commit
+- **[gh-cli](./gh-cli/)** — 使用 GitHub CLI 安全处理仓库、PR、Issue、Actions、Release 和 API 操作
 
 ## 安装与使用
 
@@ -36,40 +38,42 @@ cd dev-skills
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.claude/skills/
+cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.claude/skills/
 ```
 
 #### Codex
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.agents/skills/
+cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.agents/skills/
 ```
 
 #### OpenCode
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
+cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.config/opencode/skills/
 ```
 
-如需安装到项目级目录，将目标路径替换为上表中的项目级路径。只安装一个 Skill 时，从 `cp` 命令中删除另一个目录名即可。
+如需安装到项目级目录，将目标路径替换为上表中的项目级路径。只安装一个 Skill 时，从 `cp` 命令中删除其余目录名即可。
 
 也可以把仓库链接交给 Agent，让它代为安装：
 
 ```text
-请从 https://github.com/liuy-byte/dev-skills 的 main 分支安装以下两个 Skill：
+请从 https://github.com/liuy-byte/dev-skills 的 main 分支安装以下四个 Skill：
 
 - wechat-miniprogram-ci
 - yunxiao-bug-fix
+- git-commit
+- gh-cli
 
 要求：
 1. 识别并使用当前工具官方的用户级 Skills 目录，完成后报告实际安装路径。
-2. 分别安装仓库根目录下的两个 Skill，不要把整个仓库当作一个 Skill。
+2. 分别安装仓库根目录下的四个 Skill，不要把整个仓库当作一个 Skill。
 3. 如果目标目录已存在，不要直接覆盖；说明现状并建议我选择更新或保留。
 4. 在 wechat-miniprogram-ci 的安装目录执行 CI=1 npm ci。
-5. 检查微信代码上传密钥环境变量和云效 MCP 是否已配置；如未配置，按各 Skill 的 README 引导完成。不要读取或显示密钥、令牌正文，也不要将其写入仓库、日志或命令输出。
-6. 确认两个安装目录中都存在 SKILL.md，并检查 Skill 能被当前工具发现；如果需要重新打开会话，请明确提示。
+5. 检查微信代码上传密钥环境变量、云效 MCP，以及 gh CLI 的安装和认证状态；如未配置，按各 Skill 的说明引导完成。不要读取或显示密钥、令牌正文，也不要将其写入仓库、日志或命令输出。
+6. 确认四个安装目录中都存在 SKILL.md，并检查 Skill 能被当前工具发现；如果需要重新打开会话，请明确提示。
 7. 最后汇总已完成项、仍需我处理的配置和验证结果。只有依赖与必要配置均完成后，才说明“安装后可用”。
 ```
 
@@ -77,6 +81,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
 
 - **wechat-miniprogram-ci**：进入安装后的 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥。详见 [wechat-miniprogram-ci 使用说明](./wechat-miniprogram-ci/README.md)。
 - **yunxiao-bug-fix**：需要配置云效 MCP；首次触发时 Skill 也会引导配置。详见 [yunxiao-bug-fix 使用说明](./yunxiao-bug-fix/README.md)。
+- **gh-cli**：需要安装 [GitHub CLI](https://cli.github.com/) 并执行 `gh auth login` 完成认证。
 
 ### 验证与触发
 
@@ -85,6 +90,8 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
 ```text
 <Skills 目录>/wechat-miniprogram-ci/SKILL.md
 <Skills 目录>/yunxiao-bug-fix/SKILL.md
+<Skills 目录>/git-commit/SKILL.md
+<Skills 目录>/gh-cli/SKILL.md
 ```
 
 工具通常会自动发现新增 Skill；如果没有显示，请重新打开会话。随后可直接描述任务，让 Agent 自动匹配：
@@ -92,9 +99,11 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
 ```text
 用 miniprogram-ci 预检当前 uni-app 微信小程序
 修复云效工单 ABCD-1234
+审查当前改动并创建一个 commit
+使用 gh 查看当前仓库中检查失败的 PR
 ```
 
-也可以显式指定 Skill：Claude Code 使用 `/wechat-miniprogram-ci`，Codex 输入 `$wechat-miniprogram-ci` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
+也可以显式指定 Skill：Claude Code 使用 `/git-commit`、`/gh-cli`，Codex 输入 `$git-commit`、`$gh-cli` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
 
 ## 规范遵循
 

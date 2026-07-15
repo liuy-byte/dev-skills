@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub CLI"
+  short_description: "使用 gh 安全处理 GitHub 仓库、PR、Issue、Actions 与 Release"
+  default_prompt: "使用 $gh-cli 检查当前仓库的 GitHub 状态并完成我指定的操作。"
