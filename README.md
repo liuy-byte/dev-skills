@@ -4,10 +4,8 @@
 
 ## 包含的 Skills
 
-| Skill | 描述 |
-|-------|------|
-| [wechat-miniprogram-ci](./wechat-miniprogram-ci/) | 使用微信官方 miniprogram-ci 对 uni-app 微信小程序执行发布前预检、生产构建和代码上传 |
-| [yunxiao-bug-fix](./yunxiao-bug-fix/) | 云效（yunxiao / 阿里云 DevOps）缺陷工单的端到端修复 SOP |
+- **[wechat-miniprogram-ci](./wechat-miniprogram-ci/)** — 使用微信官方 miniprogram-ci 对 uni-app 微信小程序执行发布前预检、生产构建和代码上传
+- **[yunxiao-bug-fix](./yunxiao-bug-fix/)** — 云效（yunxiao / 阿里云 DevOps）缺陷工单的端到端修复 SOP
 
 ## 安装
 
