@@ -9,9 +9,11 @@
 
 ## 安装与使用
 
+Claude Code、Codex、OpenCode 均支持 Agent Skills。把本仓库中的 skill 目录安装到对应工具的 skills 目录后，即可在相关任务中自动触发或手动引用。
+
 ### Claude Code
 
-Claude Code 原生支持 Agent Skills。将技能目录放入 Claude Code 的 skills 目录后，重启会话即可被识别：
+Claude Code 将技能目录放入 skills 目录后，重启会话即可被识别：
 
 - **用户级，跨项目可用**：`~/.claude/skills/` 或 `~/.agents/skills/`
 - **项目级**：`<项目>/.claude/skills/`
@@ -32,26 +34,32 @@ cp -R dev-skills/yunxiao-bug-fix ~/.claude/skills/
 
 ### Codex
 
-Codex 目前不能假设原生支持 Agent Skills，也不能假设只给 GitHub 链接就会自动安装。推荐 clone 后让 Codex 读取对应 `SKILL.md` / `references/`，把它当作 SOP 和规则上下文使用：
+在 Codex 中安装本仓库的 Agent Skills：
+
+```text
+请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 两个 Agent Skills，并检查每个 skill 目录都有 SKILL.md。
+```
+
+也可以手动 clone 后放入 Codex 的 skills 目录：
 
 ```bash
 git clone https://github.com/liuy-byte/dev-skills.git
-```
-
-```text
-请读取 dev-skills/yunxiao-bug-fix/SKILL.md，并严格按它执行。
+# 将 dev-skills/wechat-miniprogram-ci 和 dev-skills/yunxiao-bug-fix 复制到 Codex 的 skills 目录
 ```
 
 ### OpenCode
 
-OpenCode 可复用本仓库的 Agent Skills 目录结构。若当前 OpenCode 环境没有明确的 GitHub URL 自动安装能力，推荐同样先 clone，再让 OpenCode 读取具体 skill 的 `SKILL.md`：
+在 OpenCode 中安装本仓库的 Agent Skills：
+
+```text
+请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 两个 Agent Skills，并检查每个 skill 目录都有 SKILL.md。
+```
+
+也可以手动 clone 后放入 OpenCode 的 skills 目录：
 
 ```bash
 git clone https://github.com/liuy-byte/dev-skills.git
-```
-
-```text
-请读取 dev-skills/wechat-miniprogram-ci/SKILL.md，按里面的流程帮我做小程序 CI 预检/上传。
+# 将 dev-skills/wechat-miniprogram-ci 和 dev-skills/yunxiao-bug-fix 复制到 OpenCode 的 skills 目录
 ```
 
 ## 规范遵循
