@@ -34,12 +34,12 @@ wechat-miniprogram-ci/
 
 ## 安装
 
-把整个 `wechat-miniprogram-ci/` 文件夹放进你的技能目录：
+把整个 `wechat-miniprogram-ci/` 文件夹放进对应工具的 Skills 目录。Claude Code、Codex 和 OpenCode 的用户级、项目级路径及完整命令见[仓库安装说明](../README.md#安装与使用)。
 
-- **Claude Code（用户级，跨项目可用）**：`~/.claude/skills/` 或 `~/.agents/skills/`
-- **Claude Code（项目级）**：`<项目>/.claude/skills/`
+以下以 Codex 用户级目录为例：
 
 ```bash
+mkdir -p ~/.agents/skills
 cp -R wechat-miniprogram-ci ~/.agents/skills/
 ```
 

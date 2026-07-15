@@ -37,21 +37,21 @@ yunxiao-bug-fix/
 
 ## 安装
 
-把整个 `yunxiao-bug-fix/` 文件夹放进你的技能目录：
+把整个 `yunxiao-bug-fix/` 文件夹放进对应工具的 Skills 目录。Claude Code、Codex 和 OpenCode 的用户级、项目级路径及完整命令见[仓库安装说明](../README.md#安装与使用)。
 
-- **Claude Code（项目级）**：`<项目>/.claude/skills/`
-- **Claude Code（用户级，跨项目可用）**：`~/.claude/skills/` 或 `~/.agents/skills/`
+以下以 Codex 用户级目录为例：
 
 ```bash
 # 方式一：clone
-git clone https://github.com/liuy-byte/agent-skills.git
-cp -R agent-skills/yunxiao-bug-fix ~/.agents/skills/
+git clone https://github.com/liuy-byte/dev-skills.git
+mkdir -p ~/.agents/skills
+cp -R dev-skills/yunxiao-bug-fix ~/.agents/skills/
 
 # 方式二：已有副本，直接拷目录
 cp -R /path/to/yunxiao-bug-fix ~/.agents/skills/
 ```
 
-放好后重启 Agent 会话即可被识别。
+工具通常会自动发现新增 Skill；如果没有显示，请重新打开会话。
 
 ## 前置依赖：云效 MCP
 

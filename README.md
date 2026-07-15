@@ -9,58 +9,80 @@
 
 ## 安装与使用
 
-Claude Code、Codex、OpenCode 均支持 Agent Skills。把本仓库中的 skill 目录安装到对应工具的 skills 目录后，即可在相关任务中自动触发或手动引用。
+Claude Code、Codex 和 OpenCode 均支持 Agent Skills。每个 Skill 都是独立目录，可全部安装，也可以只安装需要的一个。
 
-### Claude Code
+### 选择安装范围
 
-Claude Code 将技能目录放入 skills 目录后，重启会话即可被识别：
+| 工具 | 用户级（所有项目可用） | 项目级（仅当前项目可用） |
+| --- | --- | --- |
+| [Claude Code](https://code.claude.com/docs/en/skills) | `~/.claude/skills/` | `<项目>/.claude/skills/` |
+| [Codex](https://learn.chatgpt.com/docs/build-skills) | `~/.agents/skills/` | `<项目>/.agents/skills/` |
+| [OpenCode](https://opencode.ai/docs/skills/) | `~/.config/opencode/skills/` | `<项目>/.opencode/skills/` |
 
-- **用户级，跨项目可用**：`~/.claude/skills/` 或 `~/.agents/skills/`
-- **项目级**：`<项目>/.claude/skills/`
+OpenCode 也兼容 `.claude/skills/` 和 `.agents/skills/`，但建议优先使用上表中的原生目录。
+
+### 手动安装
+
+先克隆仓库：
 
 ```bash
-# clone 后复制
 git clone https://github.com/liuy-byte/dev-skills.git
+cd dev-skills
+```
+
+再按使用的工具复制 Skill。以下命令安装到用户级目录：
+
+#### Claude Code
+
+```bash
 mkdir -p ~/.claude/skills
-cp -R dev-skills/wechat-miniprogram-ci ~/.claude/skills/
-cp -R dev-skills/yunxiao-bug-fix ~/.claude/skills/
+cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.claude/skills/
 ```
 
-也可以直接把仓库链接给 Claude Code，并让它安装：
-
-```text
-请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 到 ~/.claude/skills/，安装后检查每个目录都有 SKILL.md，并提示我重启会话。
-```
-
-### Codex
-
-在 Codex 中安装本仓库的 Agent Skills：
-
-```text
-请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 两个 Agent Skills，并检查每个 skill 目录都有 SKILL.md。
-```
-
-也可以手动 clone 后放入 Codex 的 skills 目录：
+#### Codex
 
 ```bash
-git clone https://github.com/liuy-byte/dev-skills.git
-# 将 dev-skills/wechat-miniprogram-ci 和 dev-skills/yunxiao-bug-fix 复制到 Codex 的 skills 目录
+mkdir -p ~/.agents/skills
+cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.agents/skills/
 ```
 
-### OpenCode
-
-在 OpenCode 中安装本仓库的 Agent Skills：
-
-```text
-请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 两个 Agent Skills，并检查每个 skill 目录都有 SKILL.md。
-```
-
-也可以手动 clone 后放入 OpenCode 的 skills 目录：
+#### OpenCode
 
 ```bash
-git clone https://github.com/liuy-byte/dev-skills.git
-# 将 dev-skills/wechat-miniprogram-ci 和 dev-skills/yunxiao-bug-fix 复制到 OpenCode 的 skills 目录
+mkdir -p ~/.config/opencode/skills
+cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
 ```
+
+如需安装到项目级目录，将目标路径替换为上表中的项目级路径。只安装一个 Skill 时，从 `cp` 命令中删除另一个目录名即可。
+
+也可以把仓库链接交给 Agent，让它代为安装：
+
+```text
+请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 到当前工具的用户级 Skills 目录，并确认每个 Skill 目录中都有 SKILL.md。
+```
+
+### 完成前置配置
+
+- **wechat-miniprogram-ci**：进入安装后的 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥。详见 [wechat-miniprogram-ci 使用说明](./wechat-miniprogram-ci/README.md)。
+- **yunxiao-bug-fix**：需要配置云效 MCP；首次触发时 Skill 也会引导配置。详见 [yunxiao-bug-fix 使用说明](./yunxiao-bug-fix/README.md)。
+
+### 验证与触发
+
+确认安装后的目录中存在以下文件：
+
+```text
+<Skills 目录>/wechat-miniprogram-ci/SKILL.md
+<Skills 目录>/yunxiao-bug-fix/SKILL.md
+```
+
+工具通常会自动发现新增 Skill；如果没有显示，请重新打开会话。随后可直接描述任务，让 Agent 自动匹配：
+
+```text
+用 miniprogram-ci 预检当前 uni-app 微信小程序
+修复云效工单 ABCD-1234
+```
+
+也可以显式指定 Skill：Claude Code 使用 `/wechat-miniprogram-ci`，Codex 输入 `$wechat-miniprogram-ci` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
 
 ## 规范遵循
 
