@@ -14,6 +14,8 @@
 
 默认只执行预检；真实上传需要用户明确确认 AppID。本 Skill 只上传代码，不自动提审、不发布正式版。
 
+预检时版本号按命令行参数、`WX_MINIPROGRAM_VERSION`、项目 `package.json.version` 的顺序取值。标准 `x.y.z` 格式的 `package.json.version` 视为上次发布版本，预检会展示版本升级、特性更新、修订补丁三种候选，并要求用户明确选择；默认只建议修订补丁，不会自动采用。真实上传必须显式传入 `--version`，上传成功后将该版本写入项目 `package.json.version`，上传失败时保持原值。
+
 ## 目录结构（Agent Skills 标准）
 
 ```text
@@ -79,5 +81,9 @@ export WX_MINIPROGRAM_PRIVATE_KEY_PATH="$HOME/.config/wechat-miniprogram-ci/uplo
 - 不读取、不展示、不复制上传密钥正文。
 - 不把密钥写进 Skill、源码、`.env*`、命令输出或提交记录。
 - 未确认 AppID 时不得执行真实上传。
+- 必须让用户明确选择版本升级、特性更新或修订补丁；默认只建议修订补丁。
+- 候选版本仅供确认，不根据代码改动猜测版本号。
+- 真实上传必须显式传入 `--version`，不使用环境变量或 `package.json.version` 作为默认值。
+- 只在真实上传成功后更新 `package.json.version`，上传失败时不修改。
 - 只上传代码，不自动提交审核、不发布正式版。
 - 上传失败时保留原始错误并定位原因，不做无诊断连续重试。

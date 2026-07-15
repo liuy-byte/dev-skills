@@ -15,7 +15,7 @@ const HELP = `微信小程序代码上传（默认仅预检）
 
 基础参数：
   --project <目录>         uni-app 项目根目录，默认当前目录
-  --version <版本>         上传版本号，默认读取 package.json.version
+  --version <版本>         版本号；真实上传时必需，上传成功后写入 package.json
   --desc <描述>            上传描述，默认读取 package.json.description
   --private-key <路径>     微信代码上传密钥；也可用 WX_MINIPROGRAM_PRIVATE_KEY_PATH
 
@@ -36,7 +36,10 @@ const HELP = `微信小程序代码上传（默认仅预检）
   WX_MINIPROGRAM_DESC
   WX_MINIPROGRAM_ROBOT
 
-版本与描述优先级：命令行参数 > 环境变量 > package.json
+预检版本与描述优先级：命令行参数 > 环境变量 > package.json
+真实上传必须显式传入 --version，避免重复使用 package.json 中未更新的版本号
+预检会基于标准 x.y.z 格式的 package.json.version 展示版本升级、特性更新、修订补丁三种候选，必须由用户确认
+真实上传成功后将实际上传版本写入项目 package.json.version；上传失败时不修改
 `
 
 function fail(message) {
@@ -210,6 +213,43 @@ function validateNodeVersion() {
   }
 }
 
+function suggestNextVersions(version) {
+  if (typeof version !== 'string') {
+    return null
+  }
+  const match = version.trim().match(/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/)
+  if (!match) {
+    return null
+  }
+  const major = BigInt(match[1])
+  const minor = BigInt(match[2])
+  const patch = BigInt(match[3])
+  return {
+    major: `${major + 1n}.0.0`,
+    minor: `${major}.${minor + 1n}.0`,
+    patch: `${major}.${minor}.${patch + 1n}`
+  }
+}
+
+function updatePackageVersion(packageJsonPath, version) {
+  const original = fs.readFileSync(packageJsonPath, 'utf8')
+  const packageJson = JSON.parse(original)
+  const indentMatch = original.match(/\n([\t ]+)"/)
+  const indent = indentMatch?.[1] || '  '
+  const lineEnding = original.includes('\r\n') ? '\r\n' : '\n'
+  const hasTrailingLineEnding = original.endsWith('\n')
+
+  packageJson.version = version
+  let updated = JSON.stringify(packageJson, null, indent)
+  if (lineEnding === '\r\n') {
+    updated = updated.replace(/\n/g, '\r\n')
+  }
+  if (hasTrailingLineEnding) {
+    updated += lineEnding
+  }
+  fs.writeFileSync(packageJsonPath, updated, 'utf8')
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   if (args.help) {
@@ -240,6 +280,7 @@ async function main() {
   }
   const projectPackage = readJson(projectPackagePath, '项目 package.json')
   const version = args.version || process.env.WX_MINIPROGRAM_VERSION || projectPackage.version
+  const versionSuggestions = suggestNextVersions(projectPackage.version)
   const desc = args.desc || process.env.WX_MINIPROGRAM_DESC || projectPackage.description
   if (args.build && !projectPackage.scripts?.[buildScript]) {
     fail(`package.json 中不存在构建脚本 ${buildScript}`)
@@ -247,6 +288,12 @@ async function main() {
 
   if (!version || version.trim() === '' || version === '0.0.0') {
     fail('缺少有效上传版本号；请传入 --version、设置 WX_MINIPROGRAM_VERSION，或完善 package.json.version')
+  }
+  if (args.upload && !args.version) {
+    const suggestion = versionSuggestions
+      ? `；请先与用户确认更新类型：版本升级 ${versionSuggestions.major}、特性更新 ${versionSuggestions.minor}、修订补丁 ${versionSuggestions.patch}（建议）`
+      : ''
+    fail(`真实上传必须显式传入 --version，不能使用环境变量或 package.json 中的默认版本号${suggestion}`)
   }
   if (version.length > 64) {
     fail('上传版本号不能超过 64 个字符')
@@ -288,6 +335,17 @@ async function main() {
   console.log(`项目：${projectPackage.name || path.basename(projectRoot)}`)
   console.log(`AppID：${artifactAppid}`)
   console.log(`版本：${version}`)
+  if (!args.upload && !args.version) {
+    if (versionSuggestions) {
+      console.log(`上次发布版本：${projectPackage.version}`)
+      console.log('更新类型（上传前必须由用户确认）：')
+      console.log(`  版本升级：${versionSuggestions.major}`)
+      console.log(`  特性更新：${versionSuggestions.minor}`)
+      console.log(`  修订补丁：${versionSuggestions.patch}（建议）`)
+    } else {
+      console.log('更新类型：无法从 package.json.version 生成候选版本，请与用户确认后明确提供 --version')
+    }
+  }
   console.log(`描述：${desc}`)
   console.log(`机器人：${robot}`)
   console.log(`产物：${outputPath}`)
@@ -329,6 +387,14 @@ async function main() {
         console.log(`包体 ${item.name}：${(item.size / 1024).toFixed(2)} KiB`)
       }
     }
+  }
+
+  try {
+    updatePackageVersion(projectPackagePath, version)
+    console.log(`已更新 package.json.version：${version}`)
+  } catch (error) {
+    console.error(`错误：代码已上传成功，但无法更新 package.json.version：${error?.message || String(error)}`)
+    process.exitCode = 1
   }
 }
 
