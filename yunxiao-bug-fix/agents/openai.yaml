@@ -1,0 +1,4 @@
+interface:
+  display_name: "云效缺陷修复"
+  short_description: "端到端处理云效缺陷工单，完成分诊、修复、验证和流转"
+  default_prompt: "使用 $yunxiao-bug-fix 拉取并修复指定的云效缺陷工单，完成验证与工单流转。"
