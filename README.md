@@ -58,7 +58,19 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix ~/.config/opencode/skills/
 也可以把仓库链接交给 Agent，让它代为安装：
 
 ```text
-请从 https://github.com/liuy-byte/dev-skills 安装 wechat-miniprogram-ci 和 yunxiao-bug-fix 到当前工具的用户级 Skills 目录，并确认每个 Skill 目录中都有 SKILL.md。
+请从 https://github.com/liuy-byte/dev-skills 的 main 分支安装以下两个 Skill：
+
+- wechat-miniprogram-ci
+- yunxiao-bug-fix
+
+要求：
+1. 识别并使用当前工具官方的用户级 Skills 目录，完成后报告实际安装路径。
+2. 分别安装仓库根目录下的两个 Skill，不要把整个仓库当作一个 Skill。
+3. 如果目标目录已存在，不要直接覆盖；说明现状并建议我选择更新或保留。
+4. 在 wechat-miniprogram-ci 的安装目录执行 CI=1 npm ci。
+5. 检查微信代码上传密钥环境变量和云效 MCP 是否已配置；如未配置，按各 Skill 的 README 引导完成。不要读取或显示密钥、令牌正文，也不要将其写入仓库、日志或命令输出。
+6. 确认两个安装目录中都存在 SKILL.md，并检查 Skill 能被当前工具发现；如果需要重新打开会话，请明确提示。
+7. 最后汇总已完成项、仍需我处理的配置和验证结果。只有依赖与必要配置均完成后，才说明“安装后可用”。
 ```
 
 ### 完成前置配置
