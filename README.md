@@ -32,7 +32,7 @@ git clone https://github.com/liuy-byte/dev-skills.git
 cd dev-skills
 ```
 
-再按使用的工具复制 Skill。以下命令安装到用户级目录：
+再按使用的工具复制 Skill。以下命令适用于首次安装到用户级目录；如果同名目录已存在，请先比较版本并备份，不要直接覆盖。
 
 #### Claude Code
 
@@ -60,7 +60,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.config/opencode
 也可以把仓库链接交给 Agent，让它代为安装：
 
 ```text
-请从 https://github.com/liuy-byte/dev-skills 的 main 分支安装以下四个 Skill：
+请从 https://github.com/liuy-byte/dev-skills 的 main 分支，将以下 Skill 分别安装到当前工具官方的用户级 Skills 目录：
 
 - wechat-miniprogram-ci
 - yunxiao-bug-fix
@@ -68,20 +68,21 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.config/opencode
 - gh-cli
 
 要求：
-1. 识别并使用当前工具官方的用户级 Skills 目录，完成后报告实际安装路径。
-2. 分别安装仓库根目录下的四个 Skill，不要把整个仓库当作一个 Skill。
-3. 如果目标目录已存在，不要直接覆盖；说明现状并建议我选择更新或保留。
-4. 在 wechat-miniprogram-ci 的安装目录执行 CI=1 npm ci。
-5. 检查微信代码上传密钥环境变量、云效 MCP，以及 gh CLI 的安装和认证状态；如未配置，按各 Skill 的说明引导完成。不要读取或显示密钥、令牌正文，也不要将其写入仓库、日志或命令输出。
-6. 确认四个安装目录中都存在 SKILL.md，并检查 Skill 能被当前工具发现；如果需要重新打开会话，请明确提示。
-7. 最后汇总已完成项、仍需我处理的配置和验证结果。只有依赖与必要配置均完成后，才说明“安装后可用”。
+1. 每个 Skill 独立安装；目标目录已存在时不要覆盖，报告现状并建议更新或保留。
+2. 在 wechat-miniprogram-ci 目录执行 CI=1 npm ci。
+3. 检查微信密钥环境变量、云效 MCP、gh CLI 及认证状态；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
+4. 验证四个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
+5. 最后报告实际安装路径、已完成项、待配置项和验证结果。只有全部依赖及必要配置就绪后，才说明“安装后可用”。
 ```
 
 ### 完成前置配置
 
-- **wechat-miniprogram-ci**：进入安装后的 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥。详见 [wechat-miniprogram-ci 使用说明](./wechat-miniprogram-ci/README.md)。
-- **yunxiao-bug-fix**：需要配置云效 MCP；首次触发时 Skill 也会引导配置。详见 [yunxiao-bug-fix 使用说明](./yunxiao-bug-fix/README.md)。
-- **gh-cli**：需要安装 [GitHub CLI](https://cli.github.com/) 并执行 `gh auth login` 完成认证。
+| Skill | 前置条件 |
+| --- | --- |
+| [wechat-miniprogram-ci](./wechat-miniprogram-ci/README.md) | 安装 Node.js `^18.17.0` 或 `>=20.5.0`，在 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥 |
+| [yunxiao-bug-fix](./yunxiao-bug-fix/README.md) | 配置云效 MCP；首次触发时也会引导配置 |
+| git-commit | 已安装 Git，并在 Git 仓库中使用 |
+| gh-cli | 安装 [GitHub CLI](https://cli.github.com/)，确保 `gh auth status` 检查通过 |
 
 ### 验证与触发
 
@@ -103,17 +104,18 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli ~/.config/opencode
 使用 gh 查看当前仓库中检查失败的 PR
 ```
 
-也可以显式指定 Skill：Claude Code 使用 `/git-commit`、`/gh-cli`，Codex 输入 `$git-commit`、`$gh-cli` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
+显式调用时，Claude Code 使用 `/skill-name`，Codex 输入 `$skill-name` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
 
 ## 规范遵循
 
 本仓库中的 Skills 均遵循 [Agent Skills Specification](https://agentskills.io/specification)：
 
-- 目录结构：`SKILL.md`（必需）、`scripts/`、`references/`、`assets/`（可选）
-- `SKILL.md` frontmatter：`name`、`description`（必需），`license`、`compatibility`、`metadata`（可选）
+- 每个 Skill 至少包含 `SKILL.md`；可按需包含 `scripts/`、`references/`、`assets/` 等资源
+- `SKILL.md` frontmatter 至少包含 `name`、`description`，并可使用规范允许的可选字段
 - `name` 字段与父目录名一致，仅含小写字母、数字和连字符
-- 渐进式披露：metadata（常驻）→ instructions（激活时加载）→ resources（按需）
+- 渐进式披露：`name` + `description`（发现阶段）→ `SKILL.md` 正文（激活时加载）→ 资源文件（按需）
+- `agents/openai.yaml` 是可选的 OpenAI/Codex 界面元数据扩展，不属于开放标准的必需文件
 
 ## License
 
-各 Skill 有独立的 LICENSE 文件，详见各目录。
+四个 Skill 均采用 MIT 许可证，详见各目录中的 `LICENSE` 文件。

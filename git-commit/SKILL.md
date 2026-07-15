@@ -1,6 +1,7 @@
 ---
 name: git-commit
 description: 审查 Git 工作区改动，按仓库约定生成清晰、原子化的提交信息并安全创建 commit。用户要求“提交代码”“commit 一下”“创建 Git 提交”、整理暂存内容或按 Conventional Commits 提交时使用；默认不 push、不 amend、不夹带无关改动。
+license: MIT
 ---
 
 # Git Commit

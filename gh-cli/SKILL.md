@@ -1,6 +1,7 @@
 ---
 name: gh-cli
 description: 使用 GitHub CLI（gh）查询和操作 GitHub 仓库、Pull Request、Issue、Actions、Release、Project 及 API。用户要求使用 gh、查看或创建 PR/Issue、检查 CI、运行工作流、管理 Release、调用 GitHub REST/GraphQL API 时使用；优先结构化读取、明确目标仓库、保护认证信息，并在写操作后回读验证。
+license: MIT
 ---
 
 # GitHub CLI

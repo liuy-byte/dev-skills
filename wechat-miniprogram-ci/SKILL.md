@@ -1,6 +1,7 @@
 ---
 name: wechat-miniprogram-ci
 description: 使用微信官方 miniprogram-ci 对 uni-app 微信小程序执行发布前预检、生产构建和代码上传，并保护上传密钥、校验构建产物 AppID、要求真实上传前二次确认。用户要求构建或上传微信小程序、配置小程序 CI、上传体验版代码或排查 miniprogram-ci 上传失败时使用；只上传代码，不自动提审或发布。
+license: MIT
 ---
 
 # 微信小程序 CI
