@@ -4,6 +4,7 @@
 
 ## 包含的 Skills
 
+- **[wechat-mp](./wechat-mp/)** — 微信公众号文章、连载、正文配图、2.35:1 封面和素材上传一条龙
 - **[wechat-miniprogram-ci](./wechat-miniprogram-ci/)** — 使用微信官方 miniprogram-ci 对 uni-app 微信小程序执行发布前预检、生产构建和代码上传
 - **[yunxiao-bug-fix](./yunxiao-bug-fix/)** — 云效（yunxiao / 阿里云 DevOps）缺陷工单的端到端修复 SOP
 - **[git-commit](./git-commit/)** — 审查工作区改动，生成规范、原子化的提交信息并安全创建 Git commit
@@ -39,21 +40,21 @@ cd dev-skills
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.claude/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.claude/skills/
 ```
 
 #### Codex
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.agents/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.agents/skills/
 ```
 
 #### OpenCode
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.config/opencode/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.config/opencode/skills/
 ```
 
 如需安装到项目级目录，将目标路径替换为上表中的项目级路径。只安装一个 Skill 时，从 `cp` 命令中删除其余目录名即可。
@@ -64,6 +65,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 请从 https://github.com/liuy-byte/dev-skills 的 main 分支，将以下 Skill 分别安装到当前工具官方的用户级 Skills 目录：
 
 - wechat-miniprogram-ci
+- wechat-mp
 - yunxiao-bug-fix
 - git-commit
 - gh-cli
@@ -71,9 +73,9 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 
 要求：
 1. 每个 Skill 独立安装；目标目录已存在时不要覆盖，报告现状并建议更新或保留。
-2. 在 wechat-miniprogram-ci 目录执行 CI=1 npm ci。
-3. 检查微信密钥环境变量、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
-4. 验证五个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
+2. 在 wechat-miniprogram-ci 目录执行 CI=1 npm ci；需要生成公众号封面时，在 wechat-mp/scripts/cover 执行 npm i。
+3. 检查微信密钥环境变量、公众号素材配置、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
+4. 验证六个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
 5. 最后报告实际安装路径、已完成项、待配置项和验证结果。只有全部依赖及必要配置就绪后，才说明“安装后可用”。
 ```
 
@@ -81,6 +83,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 
 | Skill | 前置条件 |
 | --- | --- |
+| [wechat-mp](./wechat-mp/README.md) | 正文配图校验只需 Node 18+；封面生成需要 Node 18+、Google Chrome 和 `playwright-core`；素材上传需要 Python 3.8+/uv 和公众号 AppID/AppSecret |
 | [wechat-miniprogram-ci](./wechat-miniprogram-ci/README.md) | 安装 Node.js `^18.17.0` 或 `>=20.5.0`，在 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥 |
 | [yunxiao-bug-fix](./yunxiao-bug-fix/README.md) | 配置云效 MCP；首次触发时也会引导配置 |
 | git-commit | 已安装 Git，并在 Git 仓库中使用 |
@@ -93,6 +96,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 
 ```text
 <Skills 目录>/wechat-miniprogram-ci/SKILL.md
+<Skills 目录>/wechat-mp/SKILL.md
 <Skills 目录>/yunxiao-bug-fix/SKILL.md
 <Skills 目录>/git-commit/SKILL.md
 <Skills 目录>/gh-cli/SKILL.md
@@ -103,6 +107,7 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 
 ```text
 用 miniprogram-ci 预检当前 uni-app 微信小程序
+给这篇公众号技术文章规划并生成 4 张规整的正文配图
 修复云效工单 ABCD-1234
 审查当前改动并创建一个 commit
 使用 gh 查看当前仓库中检查失败的 PR
@@ -123,4 +128,4 @@ cp -R wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli ~/.confi
 
 ## License
 
-五个 Skill 均采用 MIT 许可证，详见各目录中的 `LICENSE` 文件。
+六个 Skill 均采用 MIT 许可证，详见各目录中的 `LICENSE` 文件。

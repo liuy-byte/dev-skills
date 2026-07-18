@@ -1,0 +1,36 @@
+{
+  "wechat_viral_article": {
+    "evals": [
+      {
+        "id": 1,
+        "prompt": "帮我把这个链接的内容改写成微信公众号文章：https://developer.aliyun.com/article/1724549",
+        "expected_output": "一篇符合微信公众号风格的爆款文章，包含：1) 有张力的标题；2) 痛点引言块；3) 结构清晰的正文；4) 实战案例；5) 下载配图到本地 images 目录；6) 文章使用图床 URL；7) 无人味/AI腔的表达",
+        "files": []
+      },
+      {
+        "id": 2,
+        "prompt": "把这篇公众号文章再去掉 AI 味，改得更像作者本人在分享经验，不要那么像教程",
+        "expected_output": "文章口吻更个人化，去掉模板化表达和总结腔，多用第一人称观察和判断，短句更多，节奏感更强",
+        "files": ["20260411-Claude-Code-16个高频命令和1套工作流.md"]
+      },
+      {
+        "id": 3,
+        "prompt": "把 https://developer.aliyun.com/article/1678492 这篇关于 Cursor 的文章，改写成适合赛博技术派公众号发的文章，要更像爆款一点",
+        "expected_output": "标题抓人、开头狠、正文去掉 AI 腔、有实战案例、保留量化数据、配图下载到本地",
+        "files": []
+      },
+      {
+        "id": 4,
+        "prompt": "审核这篇 OpenCode 教程，并在正文增加 4 张配图。图片要规整、与章节直接相关，不要浮夸概念图。",
+        "expected_output": "先给出包含插入位置、图片作用、类型和文件名的 4 张配图计划；技术操作优先真实截图，流程关系优先确定性图形；四张图统一为 2160×1440、3:2，并逐张检查相关性、文字准确性和 raw URL。",
+        "files": ["20260718-Claude-Code被封后-OpenCode-v1.18.3上手教程.md"]
+      },
+      {
+        "id": 5,
+        "prompt": "把这张 OpenCode 终端截图里的 Claude Opus 4.5 改成 GPT-5.6 Sol，其他内容不要变。",
+        "expected_output": "把任务识别为文字敏感截图的局部编辑；先查看原图，仅修改目标模型名，保持原尺寸、裁切、字体、颜色、间距和其他文本；完成后逐字检查目标文字及其他 UI 文本。",
+        "files": ["opencode-tui.png"]
+      }
+    ]
+  }
+}

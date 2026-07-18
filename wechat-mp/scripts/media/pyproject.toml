@@ -1,0 +1,11 @@
+[project]
+name = "wechat-media-upload"
+version = "0.1.0"
+description = "微信公众号素材上传工具"
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.28.0",
+]
+
+[project.scripts]
+upload-media = "upload_media:main"

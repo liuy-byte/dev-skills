@@ -1,0 +1,11 @@
+{
+  "mode": "single",
+  "outDir": "/abs/path/to/images/single-covers",
+  "brand": "技术洋",
+  "palette": { "main": "#6db33f", "light": "#9be36a", "accent": "#8fdc5a" },
+  "iconPath": "M21 3C9 3 3 9 3 18c0 1 0 2 .3 3 .4-6 4-11 11-13-5 3-7 8-7.6 12.5C19 19 22 13 21 3z",
+  "items": [
+    { "name": "maven-killer", "corner": "构建工具", "title": "干翻 Maven<br>新一代 <hl>Java 构建神器</hl>", "sub": "官方出品，构建速度快到飞起" },
+    { "name": "uv-python", "title": "一个 <hl>uv</hl> 搞定<br>Python 全生命周期", "sub": "包管理 · 虚拟环境 · 版本，一把梭" }
+  ]
+}

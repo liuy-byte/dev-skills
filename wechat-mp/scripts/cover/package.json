@@ -1,0 +1,9 @@
+{
+  "name": "wechat-series-cover",
+  "private": true,
+  "type": "module",
+  "description": "微信公众号 N 天系列封面批量生成",
+  "dependencies": {
+    "playwright-core": "^1.60.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "mode": "single",
+  "style": "light",
+  "outDir": "/abs/path/to/images/<文章专属文件夹>",
+  "brand": "技术洋",
+  "items": [
+    {
+      "name": "cover",
+      "corner": "Claude Code · 配置体检",
+      "title": "配置乱了？别重装<br>先跑 <hl>doctor</hl>",
+      "sub": "一条命令，体检 + 修复"
+    }
+  ]
+}

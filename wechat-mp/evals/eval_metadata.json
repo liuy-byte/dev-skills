@@ -1,0 +1,35 @@
+[
+  {
+    "eval_id": 1,
+    "eval_name": "rewrite-url-to-wechat-article",
+    "prompt": "帮我把这个链接的内容改写成微信公众号文章：https://developer.aliyun.com/article/1724549",
+    "assertions": []
+  },
+  {
+    "eval_id": 2,
+    "eval_name": "remove-ai-taste-from-existing",
+    "prompt": "把这篇公众号文章再去掉 AI 味，改得更像作者本人在分享经验，不要那么像教程",
+    "assertions": [],
+    "files": ["20260411-Claude-Code-16个高频命令和1套工作流.md"]
+  },
+  {
+    "eval_id": 3,
+    "eval_name": "rewrite-cursor-article-viral",
+    "prompt": "把 https://developer.aliyun.com/article/1678492 这篇关于 Cursor 的文章，改写成适合赛博技术派公众号发的文章，要更像爆款一点",
+    "assertions": []
+  },
+  {
+    "eval_id": 4,
+    "eval_name": "plan-and-generate-body-images",
+    "prompt": "审核这篇 OpenCode 教程，并在正文增加 4 张配图。图片要规整、与章节直接相关，不要浮夸概念图。",
+    "assertions": [],
+    "files": ["20260718-Claude-Code被封后-OpenCode-v1.18.3上手教程.md"]
+  },
+  {
+    "eval_id": 5,
+    "eval_name": "edit-text-sensitive-terminal-screenshot",
+    "prompt": "把这张 OpenCode 终端截图里的 Claude Opus 4.5 改成 GPT-5.6 Sol，其他内容不要变。",
+    "assertions": [],
+    "files": ["opencode-tui.png"]
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "series": "Spring AI",
+  "total": 14,
+  "ext": "jpg",
+  "filePrefix": "day",
+  "outDir": "/abs/path/to/images/spring-ai-14days",
+  "palette": { "main": "#6db33f", "light": "#9be36a", "accent": "#8fdc5a" },
+  "iconPath": "M21 3C9 3 3 9 3 18c0 1 0 2 .3 3 .4-6 4-11 11-13-5 3-7 8-7.6 12.5C19 19 22 13 21 3z",
+  "days": [
+    { "n": "01", "title": "5 分钟跑起<br>第一个 <hl>AI 对话</hl>", "sub": "Spring Boot 党最快上手 Spring AI 2.0", "corner": "Spring AI 2.0" },
+    { "n": "02", "title": "吃透 <hl>ChatClient</hl><br>流式输出", "sub": "call 一次拿结果，stream 逐字返回", "corner": "ChatClient" },
+    { "n": "03", "title": "告别硬编码<br><hl>Prompt</hl> 模板化", "sub": "模板填充 + System 角色设定", "corner": "Prompt" },
+    { "n": "04", "title": "让大模型<br>直吐 <hl>Java 对象</hl>", "sub": "结构化输出，告别手动解析 JSON", "corner": "结构化输出" },
+    { "n": "05", "title": "<hl>多模态</hl><br>图文一起读", "sub": "一个 ChatClient 同时读懂文字和图片", "corner": "多模态" },
+    { "n": "06", "title": "给 AI 装上<br><hl>记忆</hl>", "sub": "Chat Memory 让多轮对话不失忆", "corner": "Chat Memory" },
+    { "n": "07", "title": "<hl>Advisors</hl><br>AI 的过滤器链", "sub": "给请求响应链路插上拦截器", "corner": "Advisors" },
+    { "n": "08", "title": "<hl>Embedding</hl><br>与向量库", "sub": "把文本变成可检索的向量", "corner": "Embedding" },
+    { "n": "09", "title": "文档 <hl>ETL</hl><br>喂进向量库", "sub": "读取 · 切分 · 写入，三步走", "corner": "文档 ETL" },
+    { "n": "10", "title": "<hl>RAG</hl> 实战<br>让 AI 有据可答", "sub": "基于你的文档回答，不再瞎编", "corner": "RAG" },
+    { "n": "11", "title": "模块化 <hl>RAG</hl><br>进阶", "sub": "查询改写 · 压缩 · 空上下文兜底", "corner": "模块化 RAG" },
+    { "n": "12", "title": "<hl>Tool Calling</hl><br>调用 Java 方法", "sub": "让大模型自己调你写的函数", "corner": "Tool Calling" },
+    { "n": "13", "title": "<hl>MCP</hl><br>接入工具生态", "sub": "Model Context Protocol 打通外部能力", "corner": "MCP" },
+    { "n": "14", "title": "全景<hl>知识图谱</hl><br>面试通关", "sub": "14 天串讲 + 高频面试题", "corner": "面试通关" }
+  ]
+}
