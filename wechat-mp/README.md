@@ -28,12 +28,9 @@ wechat-mp/
 # 封面生成（需本机 Google Chrome）
 cd ~/.claude/skills/wechat-mp/scripts/cover
 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm i --registry=https://registry.npmmirror.com
-
-# 素材上传
-cd ~/.claude/skills/wechat-mp/scripts/media && uv sync
 ```
 
-素材上传所需的公众号 AppID/AppSecret 存放在 `~/.config/wechat-mp/config.json`（仓库外），缺失时 skill 会引导自助配置。
+素材上传（`scripts/media/*.mjs`）用 Node 18+ 内置 fetch，**无第三方依赖，无需安装**。所需的公众号 AppID/AppSecret 存放在 `~/.config/wechat-mp/config.json`（仓库外），缺失时 skill 会引导自助配置。
 
 正文配图校验无第三方依赖：
 

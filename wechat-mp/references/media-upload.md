@@ -4,14 +4,13 @@
 
 ## 环境
 
-- Python 3.8+
-- 使用 uv 管理依赖（自动安装 requests）
+- Node.js 18+（用内置 `fetch` / `FormData`，**无第三方依赖**，无需 `npm i`）
 
 ## 使用方法
 
 ```bash
 cd ~/.claude/skills/wechat-mp/scripts/media
-uv run python upload_media.py --image /path/to/image.png --permanent
+node upload_media.mjs --image /path/to/image.png --permanent
 ```
 
 > 配置含 `app_id`/`app_secret`，**缺失时本 skill 会主动询问并自动生成**（见下「首次配置」），无需手动准备。
@@ -70,7 +69,7 @@ JSON
 
 ```bash
 # 上传封面图
-uv run python upload_media.py --image images/docker-14days-cover.jpg --permanent
+node upload_media.mjs --image images/docker-14days-cover.jpg --permanent
 ```
 
 上传成功后直接输出 media_id。

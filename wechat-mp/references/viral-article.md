@@ -274,7 +274,7 @@ git add articles images && git commit -m "chore: update articles & images - <文
 用素材上传脚本传封面拿 `media_id`（详见 `media-upload.md`）：
 ```bash
 cd ~/.claude/skills/wechat-mp/scripts/media
-uv run python upload_media.py --image <封面图绝对路径> --permanent
+node upload_media.mjs --image <封面图绝对路径> --permanent
 ```
 
 微信头条封面使用 2.35:1；本 Skill 默认生成 2350×1000 高清母版，文件 ≤2MB，并上传为永久素材。发布前检查横图和 1:1 分享缩略图裁切。

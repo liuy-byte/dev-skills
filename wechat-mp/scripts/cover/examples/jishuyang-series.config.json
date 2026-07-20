@@ -1,0 +1,11 @@
+{
+  "mode": "series",
+  "style": "dark",
+  "outDir": "/abs/path/to/images/<系列专属文件夹>",
+  "brand": "技术洋",
+  "series": "系列名",
+  "days": [
+    { "n": "01", "title": "主标题两行<br><hl>核心术语</hl>", "sub": "副标题 ≤18 字", "corner": "技术标签" },
+    { "n": "02", "title": "第二篇标题<br><hl>核心术语</hl>", "sub": "副标题", "corner": "技术标签" }
+  ]
+}
