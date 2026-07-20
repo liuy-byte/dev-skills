@@ -9,11 +9,14 @@ import { homedir } from 'node:os';
 const TOKEN_URL = 'https://api.weixin.qq.com/cgi-bin/token';
 
 function parseArgs(argv) {
-  const args = { permanent: false };
+  // 默认上传为永久素材（封面用途）；显式 --temp 才走临时素材（仅测试，3 天过期）。
+  // --permanent 仍兼容（等价默认行为），无需再手动加。
+  const args = { permanent: true };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--image') args.image = argv[++i];
     else if (a === '--config') args.config = argv[++i];
+    else if (a === '--temp') args.permanent = false;
     else if (a === '--permanent') args.permanent = true;
   }
   return args;

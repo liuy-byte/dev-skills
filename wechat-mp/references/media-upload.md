@@ -10,9 +10,11 @@
 
 ```bash
 cd ~/.claude/skills/wechat-mp/scripts/media
-node upload_media.mjs --image /path/to/image.png --permanent
+node upload_media.mjs --image /path/to/image.png
 ```
 
+> **默认上传为永久素材**（封面用途），无需再加 `--permanent`。仅测试链路、不想占素材库时才加 `--temp`（临时素材，3 天自动过期、不进后台库）。
+>
 > 配置含 `app_id`/`app_secret`，**缺失时本 skill 会主动询问并自动生成**（见下「首次配置」），无需手动准备。
 
 ## 参数说明
@@ -20,7 +22,8 @@ node upload_media.mjs --image /path/to/image.png --permanent
 | 参数 | 说明 |
 |------|------|
 | `--image` | 图片文件路径（必填） |
-| `--permanent` | 上传为永久素材（封面必须用） |
+| `--temp` | 上传为**临时**素材（3 天过期、不进后台库，仅测试用）；不加则默认永久 |
+| `--permanent` | 兼容保留，等价默认行为（永久素材），无需再加 |
 | `--config` | 配置文件路径（默认 `$WECHAT_MP_CONFIG`，否则 `~/.config/wechat-mp/config.json`） |
 
 ## 首次配置（缺配置时 skill 自动完成）
@@ -69,7 +72,7 @@ JSON
 
 ```bash
 # 上传封面图
-node upload_media.mjs --image images/docker-14days-cover.jpg --permanent
+node upload_media.mjs --image images/docker-14days-cover.jpg
 ```
 
 上传成功后直接输出 media_id。
