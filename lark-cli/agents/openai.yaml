@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lark CLI"
+  short_description: "使用 lark-cli 安全操作飞书/Lark 文档、云盘、表格、日历、消息、审批等资源"
+  default_prompt: "使用 $lark-cli 操作飞书资源：先确认身份与权限，优先用高层 shortcut 和内嵌域文档，写操作前明确确认。"
