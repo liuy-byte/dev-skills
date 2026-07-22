@@ -60,14 +60,41 @@ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm i --registry=https://registry.npmmirror.c
 
 ## 用法
 
-1. 写一个 `config.json`（连载参考 `scripts/cover/examples/spring-ai-14days.config.json`，单篇参考 `scripts/cover/examples/single-articles.config.json`，复制改即可）。
+### 单篇快捷模式（推荐，不写 JSON）
+
+固定参数（mode/style/brand/kicker）来自持久配置（见下），命令行只给会变的部分：
+
+```bash
+node ~/.claude/skills/wechat-mp/scripts/cover/generate.mjs \
+  --out /abs/path/to/images/<文章专属文件夹> \
+  --title "主标题 <hl>高亮词</hl>" \
+  --sub "一句话卖点"
+```
+
+可选：`--corner` 覆盖 kicker（传空串关闭）、`--name` 改文件名（默认 `cover`）。
+
+### 持久配置（一次配好，长期生效）
+
+`~/.config/wechat-mp/config.json`（与素材上传共用，或 `$WECHAT_MP_CONFIG`）的 `cover` 段存放固定参数，运行时 config/CLI 参数优先于它：
+
+```json
+{ "cover": { "mode": "single", "style": "dark", "brand": "技术洋", "corner": "AI 编程" } }
+```
+
+> `palette` 不用配——脚本 dark 默认即品牌金。`corner` 在这里配一次，单篇封面自动带「AI 编程」kicker。
+
+### config.json 模式（连载/批量仍用它）
+
+1. 写一个 `config.json`（连载参考 `scripts/cover/examples/spring-ai-14days.config.json`，单篇参考 `scripts/cover/examples/single-articles.config.json`，复制改即可）；未写的字段同样回落到持久配置。
 2. 运行（**脚本路径用绝对路径**，避免 cwd 漂移找不到脚本）：
 
 ```bash
 node ~/.claude/skills/wechat-mp/scripts/cover/generate.mjs /abs/path/to/your.config.json
 ```
 
-3. 逐张查看输出：脚本会检查配置、标题行数、重复文件名和文件大小，但仍需目视确认标题语义、品牌色、安全边距；连载还要看进度号，单篇看品牌名。
+### 输出检查
+
+逐张查看输出：脚本会检查配置、标题行数、重复文件名和文件大小，但仍需目视确认标题语义、品牌色、安全边距；连载还要看进度号，单篇看品牌名。
 
 ## config.json 字段
 

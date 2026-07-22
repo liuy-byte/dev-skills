@@ -2,14 +2,46 @@
 //   mode "series"(默认): 连载版式 — 左侧大 Day 编号 + 右侧主题 + 底部「N 天系列」+ 进度
 //   mode "single":       单篇版式 — 居中文章主标题 + 副标题 + 底部公众号品牌名（无编号/进度）
 // 用法: node generate.mjs <config.json>
+//       node generate.mjs --out <目录> --title "..." [--sub "..."] [--corner "..."] [--name cover]   (单篇快捷模式)
+// 持久默认: ~/.config/wechat-mp/config.json (或 $WECHAT_MP_CONFIG) 的 "cover" 段，
+//           可配 mode/style/brand/corner/palette 等固定参数，运行时 config/CLI 参数优先。
 // 依赖: playwright-core（首次需 npm i，见 SKILL.md）+ 系统 Google Chrome
 import { chromium } from 'playwright-core';
 import { mkdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
+import { homedir } from 'node:os';
 
-const cfgPath = process.argv[2];
-if (!cfgPath) { console.error('用法: node generate.mjs <config.json>'); process.exit(1); }
-const cfg = JSON.parse(readFileSync(cfgPath, 'utf8'));
+function loadPersistentDefaults() {
+  const p = process.env.WECHAT_MP_CONFIG || join(homedir(), '.config', 'wechat-mp', 'config.json');
+  try { return JSON.parse(readFileSync(p, 'utf8')).cover || {}; } catch { return {}; }
+}
+
+const argv = process.argv.slice(2);
+let runCfg;
+if (argv.length && !argv[0].startsWith('--')) {
+  runCfg = JSON.parse(readFileSync(argv[0], 'utf8'));
+} else if (argv.length) {
+  const a = {};
+  for (let i = 0; i < argv.length; i++) {
+    const k = argv[i];
+    if (k === '--out') a.outDir = argv[++i];
+    else if (k === '--title') a.title = argv[++i];
+    else if (k === '--sub') a.sub = argv[++i];
+    else if (k === '--corner') a.corner = argv[++i];
+    else if (k === '--name') a.name = argv[++i];
+    else { console.error(`未知参数: ${k}`); process.exit(1); }
+  }
+  if (!a.outDir || !a.title) { console.error('快捷模式必须提供 --out 与 --title'); process.exit(1); }
+  runCfg = { mode: 'single', outDir: a.outDir, items: [{
+    name: a.name || 'cover', title: a.title,
+    ...(a.sub !== undefined ? { sub: a.sub } : {}),
+    ...(a.corner !== undefined ? { corner: a.corner } : {}),
+  }] };
+} else {
+  console.error('用法: node generate.mjs <config.json>\n     node generate.mjs --out <目录> --title "..." [--sub "..."] [--corner "..."] [--name cover]');
+  process.exit(1);
+}
+const cfg = { ...loadPersistentDefaults(), ...runCfg };
 
 const mode = cfg.mode || 'series';
 const style = cfg.style || 'dark'; // dark(默认,深色科技底) | light(浅蓝风,仅 single 版式,与技术洋贴图视觉一致)
@@ -19,6 +51,10 @@ const isLight = style === 'light';
 if (isLight && mode !== 'single') { console.error('style:light 仅支持 mode:single'); process.exit(1); }
 const items = cfg.items || cfg.days || [];
 if (!items.length) { console.error('config 缺少 items / days'); process.exit(1); }
+// 持久配置的 corner 作为单篇 kicker 默认值，item 显式给了（含空串关闭）则不覆盖
+if (mode === 'single' && cfg.corner) {
+  for (const it of items) { if (it && typeof it === 'object' && it.corner === undefined) it.corner = cfg.corner; }
+}
 if (!cfg.outDir) { console.error('config 缺少 outDir'); process.exit(1); }
 mkdirSync(cfg.outDir, { recursive: true });
 
