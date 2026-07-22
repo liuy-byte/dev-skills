@@ -49,7 +49,7 @@ node scripts/upload-weixin.cjs \
   --confirm-appid "<预检得到的 AppID>"
 ```
 
-11. 报告真实上传结果和包体积；上传成功后，将实际上传的显式版本写入项目 `package.json.version`。上传失败时不得修改 `package.json`。若上传成功但写回失败，必须分别报告这两个状态，不得误报为上传失败。不得把“上传成功”表述为“已提审”或“已发布”。
+11. 报告真实上传结果和包体积；上传成功后，将实际上传的显式版本写入项目 `package.json.version`，并由脚本自动 git 提交该文件（`chore(release): 体验版版本号 x.y.z`，pathspec 只含 `package.json` 不夹带其他改动；`--no-commit` 可关闭；非 git 仓库自动跳过；提交失败仅警告并提示手动提交，不影响上传结果；不自动 push）。上传失败时不得修改 `package.json`。若上传成功但写回或自动提交失败，必须分别报告各状态，不得误报为上传失败。不得把“上传成功”表述为“已提审”或“已发布”。
 
 ## 安全门禁
 

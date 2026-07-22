@@ -27,6 +27,7 @@ const HELP = `微信小程序代码上传（默认仅预检）
   --robot <1-30>           CI 机器人编号，默认 1
   --upload                 执行真实上传；不传时仅预检
   --confirm-appid <AppID>  真实上传时必需，必须与产物 AppID 一致
+  --no-commit              上传成功后不自动 git 提交 package.json 版本号改动
   --help                   显示帮助
 
 环境变量：
@@ -39,7 +40,9 @@ const HELP = `微信小程序代码上传（默认仅预检）
 预检版本与描述优先级：命令行参数 > 环境变量 > package.json
 真实上传必须显式传入 --version，避免重复使用 package.json 中未更新的版本号
 预检会基于标准 x.y.z 格式的 package.json.version 展示版本升级、特性更新、修订补丁三种候选，必须由用户确认
-真实上传成功后将实际上传版本写入项目 package.json.version；上传失败时不修改
+真实上传成功后将实际上传版本写入项目 package.json.version，并自动 git 提交该文件
+（chore(release) 提交，仅含 package.json，绝不夹带其他改动；--no-commit 关闭；
+非 git 仓库自动跳过；提交失败仅警告，不影响上传结果）；上传失败时不修改
 `
 
 function fail(message) {
@@ -52,7 +55,7 @@ function warn(message) {
 }
 
 function parseArgs(argv) {
-  const booleanFlags = new Set(['--build', '--upload', '--help'])
+  const booleanFlags = new Set(['--build', '--upload', '--no-commit', '--help'])
   const knownValueFlags = new Set([
     '--project',
     '--version',
@@ -250,6 +253,27 @@ function updatePackageVersion(packageJsonPath, version) {
   fs.writeFileSync(packageJsonPath, updated, 'utf8')
 }
 
+function commitVersionChange(projectRoot, packageJsonPath, version) {
+  const inRepo = spawnSync('git', ['-C', projectRoot, 'rev-parse', '--is-inside-work-tree'], { stdio: 'ignore' })
+  if (inRepo.status !== 0) {
+    console.log('提示：项目不是 git 仓库，跳过版本号自动提交')
+    return
+  }
+  // pathspec 直提该文件，绕过暂存区，绝不夹带工作区/暂存区里的其他改动
+  const relPath = path.relative(projectRoot, packageJsonPath) || 'package.json'
+  const commit = spawnSync(
+    'git',
+    ['-C', projectRoot, 'commit', '-m', `chore(release): 体验版版本号 ${version}`, '--', relPath],
+    { encoding: 'utf8' }
+  )
+  if (commit.status === 0) {
+    console.log(`已自动提交版本号改动：chore(release): 体验版版本号 ${version}（未 push，由使用者决定）`)
+  } else {
+    const detail = (commit.stderr || commit.stdout || String(commit.error || '')).trim()
+    console.error(`警告：版本号已写入 package.json，但自动提交失败，请手动提交：${detail}`)
+  }
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2))
   if (args.help) {
@@ -389,12 +413,17 @@ async function main() {
     }
   }
 
+  let versionWritten = false
   try {
     updatePackageVersion(projectPackagePath, version)
+    versionWritten = true
     console.log(`已更新 package.json.version：${version}`)
   } catch (error) {
     console.error(`错误：代码已上传成功，但无法更新 package.json.version：${error?.message || String(error)}`)
     process.exitCode = 1
+  }
+  if (versionWritten && !args['no-commit']) {
+    commitVersionChange(projectRoot, projectPackagePath, version)
   }
 }
 
