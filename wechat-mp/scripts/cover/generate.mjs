@@ -22,11 +22,11 @@ if (!items.length) { console.error('config 缺少 items / days'); process.exit(1
 if (!cfg.outDir) { console.error('config 缺少 outDir'); process.exit(1); }
 mkdirSync(cfg.outDir, { recursive: true });
 
-// 技术洋品牌色（钉死）：dark / light 均以品牌蓝 #1f7ae0 为主色，保证同一公众号视觉统一。
-// 如个别场景确需换色，仍可在 config 显式传 palette 覆盖，但默认一律品牌蓝。
+// 技术洋品牌色（钉死）：dark 以品牌金 #f1c14b 为主色（2026-07 起现行风格）；
+// light（小红书贴图风）仍用品牌蓝。个别场景确需换色，可在 config 显式传 palette 覆盖。
 const defaultPalette = isLight
   ? { main: '#1f7ae0', light: '#5fa8f0', accent: '#1f7ae0' }
-  : { main: '#1f7ae0', light: '#5fb8ff', accent: '#4aa8f5' };
+  : { main: '#d99a1f', light: '#f6d47c', accent: '#f1c14b' };
 const P = Object.assign(defaultPalette, cfg.palette || {});
 for (const [key, color] of Object.entries(P)) {
   if (!/^#[0-9a-f]{6}$/i.test(color)) { console.error(`palette.${key} 必须是 6 位 hex 颜色`); process.exit(1); }

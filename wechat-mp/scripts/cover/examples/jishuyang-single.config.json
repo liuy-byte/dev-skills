@@ -4,6 +4,6 @@
   "outDir": "/abs/path/to/images/<文章专属文件夹>",
   "brand": "技术洋",
   "items": [
-    { "name": "cover", "corner": "分类/工具名（可选）", "title": "主标题两行<br>核心词 <hl>高亮</hl>", "sub": "一句话卖点" }
+    { "name": "cover", "corner": "AI 编程", "title": "主标题两行<br>核心词 <hl>高亮</hl>", "sub": "一句话卖点" }
   ]
 }
