@@ -8,7 +8,7 @@
 |------|--------|------|
 | 基调 `style` | `dark`（深色科技底） | 统一深色。带小红书贴图的文章可用 `light`（浅蓝），light 主色仍为品牌蓝 |
 | 品牌主色 `palette` | 品牌金 `#d99a1f` / `#f6d47c` / `#f1c14b` | 已是脚本 dark 默认（2026-07 起现行风格），**省略 `palette` 即自动品牌金**；不要再填技术栈色 |
-| 单篇 kicker `corner` | `AI 编程` | 单篇统一用这个分类标签，不按文章主题换，强化栏目辨识 |
+| 单篇 kicker `corner` | 按文章所属**公众号合集** | 有对应合集用合集名（如 Claude Code 系列文章传 `--corner "Claude Code"`）；无合集归属的泛 AI 文用默认「AI 编程」。生成前先判断文章属于哪个合集 |
 | 品牌名 `brand` | `技术洋` | 已是脚本默认；模板中仍显式写死以防默认值变动 |
 | 图标 `iconPath` | 默认菱形 | 省略即菱形，与现有封面一致；不要换叶子等 |
 
@@ -81,7 +81,7 @@ node ~/.claude/skills/wechat-mp/scripts/cover/generate.mjs \
 { "cover": { "mode": "single", "style": "dark", "brand": "技术洋", "corner": "AI 编程" } }
 ```
 
-> `palette` 不用配——脚本 dark 默认即品牌金。`corner` 在这里配一次，单篇封面自动带「AI 编程」kicker。
+> `palette` 不用配——脚本 dark 默认即品牌金。config 里的 `corner: "AI 编程"` 是**无合集归属时的兜底**；文章属于某个公众号合集时，生成命令必须传 `--corner "<合集名>"` 覆盖（如 Claude Code 系列传 `--corner "Claude Code"`）。
 
 ### config.json 模式（连载/批量仍用它）
 
