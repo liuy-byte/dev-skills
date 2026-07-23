@@ -16,7 +16,7 @@ wechat-mp/
 ├── scripts/
 │   ├── body-images/          # 正文图尺寸、数量和重复内容校验
 │   ├── cover/                # Node + playwright-core，本机 Chrome 渲染
-│   └── media/                # Python + uv，微信素材接口
+│   └── media/                # Node 18+ 内置 fetch，微信素材接口
 └── evals/                    # 测试用例
 ```
 

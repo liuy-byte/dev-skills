@@ -76,7 +76,7 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 要求：
 1. 每个 Skill 独立安装；目标目录已存在时不要覆盖，报告现状并建议更新或保留。
 2. 在 wechat-miniprogram-ci 目录执行 CI=1 npm ci；需要生成公众号封面时，在 wechat-mp/scripts/cover 执行 npm i。
-3. 检查微信密钥环境变量、公众号素材配置、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置、lark-cli 及飞书登录态；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
+3. 检查小程序上传密钥环境变量、公众号 AppID/AppSecret 配置（`~/.config/wechat-mp/config.json`）、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置、lark-cli 及飞书登录态；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
 4. 验证七个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
 5. 最后报告实际安装路径、已完成项、待配置项和验证结果。只有全部依赖及必要配置就绪后，才说明“安装后可用”。
 ```
@@ -85,7 +85,7 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 
 | Skill | 前置条件 |
 | --- | --- |
-| [wechat-mp](./wechat-mp/README.md) | 正文配图校验只需 Node 18+；封面生成需要 Node 18+、Google Chrome 和 `playwright-core`；素材上传需要 Python 3.8+/uv 和公众号 AppID/AppSecret |
+| [wechat-mp](./wechat-mp/README.md) | 正文配图校验只需 Node 18+；封面生成需要 Node 18+、Google Chrome 和 `playwright-core`；素材上传只需 Node 18+ 和公众号 AppID/AppSecret（配置在 `~/.config/wechat-mp/config.json`） |
 | [wechat-miniprogram-ci](./wechat-miniprogram-ci/README.md) | 安装 Node.js `^18.17.0` 或 `>=20.5.0`，在 Skill 目录执行 `CI=1 npm ci`，并配置微信代码上传密钥 |
 | [yunxiao-bug-fix](./yunxiao-bug-fix/README.md) | 配置云效 MCP；首次触发时也会引导配置 |
 | git-commit | 已安装 Git，并在 Git 仓库中使用 |
