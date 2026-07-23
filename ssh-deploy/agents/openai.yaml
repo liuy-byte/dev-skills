@@ -1,0 +1,4 @@
+interface:
+  display_name: "SSH Deploy"
+  short_description: "通过 SSH 密钥免密安全部署服务到远程服务器"
+  default_prompt: "使用 $ssh-deploy 按项目 deploy.config.json 部署到目标环境：先检测免密连通，展示部署计划确认后执行，完成健康检查再报告结果。"

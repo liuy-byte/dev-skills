@@ -11,6 +11,7 @@
 - **[gh-cli](./gh-cli/)** — 使用 GitHub CLI 安全处理仓库、PR、Issue、Actions、Release 和 API 操作
 - **[mysql-cli](./mysql-cli/)** — 使用原生 mysql 客户端安全查询、检查和验证 MySQL 数据库
 - **[lark-cli](./lark-cli/)** — 使用 lark-cli 安全操作飞书/Lark 文档、云盘、表格、日历、消息、审批等资源
+- **[ssh-deploy](./ssh-deploy/)** — 通过 SSH 密钥免密认证安全部署服务：免密配置引导、备份、传输、重启、健康检查与回滚
 
 ## 安装与使用
 
@@ -41,21 +42,21 @@ cd dev-skills
 
 ```bash
 mkdir -p ~/.claude/skills
-cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ~/.claude/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ssh-deploy ~/.claude/skills/
 ```
 
 #### Codex
 
 ```bash
 mkdir -p ~/.agents/skills
-cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ~/.agents/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ssh-deploy ~/.agents/skills/
 ```
 
 #### OpenCode
 
 ```bash
 mkdir -p ~/.config/opencode/skills
-cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ~/.config/opencode/skills/
+cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cli lark-cli ssh-deploy ~/.config/opencode/skills/
 ```
 
 如需安装到项目级目录，将目标路径替换为上表中的项目级路径。只安装一个 Skill 时，从 `cp` 命令中删除其余目录名即可。
@@ -72,12 +73,13 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 - gh-cli
 - mysql-cli
 - lark-cli
+- ssh-deploy
 
 要求：
 1. 每个 Skill 独立安装；目标目录已存在时不要覆盖，报告现状并建议更新或保留。
 2. 在 wechat-miniprogram-ci 目录执行 CI=1 npm ci；需要生成公众号封面时，在 wechat-mp/scripts/cover 执行 npm i。
-3. 检查小程序上传密钥环境变量、公众号 AppID/AppSecret 配置（`~/.config/wechat-mp/config.json`）、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置、lark-cli 及飞书登录态；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌。
-4. 验证七个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
+3. 检查小程序上传密钥环境变量、公众号 AppID/AppSecret 配置（`~/.config/wechat-mp/config.json`）、云效 MCP、gh CLI 及认证状态、mysql 客户端及安全连接配置、lark-cli 及飞书登录态、OpenSSH 客户端可用性；缺失时按仓库说明引导配置，不得读取或泄露密钥、令牌、SSH 私钥。
+4. 验证八个目录均包含 SKILL.md 且能被当前工具发现；需要重启会话时明确提示。
 5. 最后报告实际安装路径、已完成项、待配置项和验证结果。只有全部依赖及必要配置就绪后，才说明“安装后可用”。
 ```
 
@@ -92,6 +94,7 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 | gh-cli | 安装 [GitHub CLI](https://cli.github.com/)，确保 `gh auth status` 检查通过 |
 | mysql-cli | 安装 MySQL 命令行客户端，并通过登录路径、受保护配置文件或交互密码提示安全连接 |
 | lark-cli | 安装 lark-cli，完成飞书/Lark 应用配置，并通过 `lark-cli auth status` 确认登录态；user 身份需 `lark-cli auth login` 授权 |
+| ssh-deploy | OpenSSH 客户端（macOS/Linux 自带）；目标服务器可达，首次使用时 Skill 会引导完成免密配置 |
 
 ### 验证与触发
 
@@ -105,6 +108,7 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 <Skills 目录>/gh-cli/SKILL.md
 <Skills 目录>/mysql-cli/SKILL.md
 <Skills 目录>/lark-cli/SKILL.md
+<Skills 目录>/ssh-deploy/SKILL.md
 ```
 
 工具通常会自动发现新增 Skill；如果没有显示，请重新打开会话。随后可直接描述任务，让 Agent 自动匹配：
@@ -117,6 +121,7 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 使用 gh 查看当前仓库中检查失败的 PR
 使用 mysql CLI 查询测试库中最近 20 条订单
 用 lark-cli 把这个 Markdown 文件导入成飞书在线文档
+把当前项目部署到测试服务器
 ```
 
 显式调用时，Claude Code 使用 `/skill-name`，Codex 输入 `$skill-name` 或通过 `/skills` 选择；OpenCode 可在提示词中直接写明 Skill 名称。
@@ -133,4 +138,4 @@ cp -R wechat-mp wechat-miniprogram-ci yunxiao-bug-fix git-commit gh-cli mysql-cl
 
 ## License
 
-七个 Skill 均采用 MIT 许可证，详见各目录中的 `LICENSE` 文件。
+八个 Skill 均采用 MIT 许可证，详见各目录中的 `LICENSE` 文件。
