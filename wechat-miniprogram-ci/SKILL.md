@@ -74,3 +74,7 @@ node scripts/upload-weixin.cjs \
 - `WX_MINIPROGRAM_VERSION`
 - `WX_MINIPROGRAM_DESC`
 - `WX_MINIPROGRAM_ROBOT`
+
+## 文档自校准
+
+使用本 Skill 时，若发现文档表述与实际行为不符（命令行为、选项效果、版本差异、环境限制等），主动向用户指出差异并附实测证据，建议修正本 SKILL.md；修正后提醒用户同步源仓库与各处已安装副本。

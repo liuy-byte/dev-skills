@@ -117,3 +117,7 @@ redis-cli <连接参数> HSCAN order:1001 0 COUNT 100
 - 不自动执行 `SHUTDOWN`、`REPLICAOF` / `SLAVEOF`、`CLUSTER FAILOVER` 等拓扑变更，不执行 `CONFIG REWRITE`、`SCRIPT KILL` / `FUNCTION KILL`，不操作 RDB/AOF 文件和备份恢复。
 - 不把本 Skill 扩展到应用客户端代码（Jedis、Lettuce、Spring Data Redis）或其他数据库与消息队列。
 - 没有真实连接和命令输出证据时，不声称数据或修复已验证。
+
+## 文档自校准
+
+使用本 Skill 时，若发现文档表述与实际行为不符（命令行为、选项效果、版本差异、环境限制等），主动向用户指出差异并附实测证据，建议修正本 SKILL.md；修正后提醒用户同步源仓库与各处已安装副本。

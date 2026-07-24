@@ -41,3 +41,7 @@ metadata:
 - 封面生成：`cd ~/.claude/skills/wechat-mp/scripts/cover && PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm i --registry=https://registry.npmmirror.com`（需本机 Google Chrome）
 - 正文配图校验：Node 18+，无第三方依赖
 - 素材上传：Node 18+，**无第三方依赖**（用内置 fetch，无需安装）；AppID/AppSecret 缺失时按 `references/media-upload.md` 的「首次配置」引导用户自助生成，密钥只写 `~/.config/wechat-mp/config.json`，不入库
+
+## 文档自校准
+
+使用本 Skill 时，若发现文档表述与实际行为不符（命令行为、选项效果、版本差异、环境限制等），主动向用户指出差异并附实测证据，建议修正本 SKILL.md；修正后提醒用户同步源仓库与各处已安装副本。
