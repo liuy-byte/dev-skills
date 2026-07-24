@@ -1,0 +1,4 @@
+interface:
+  display_name: "Redis CLI"
+  short_description: "使用 redis-cli 客户端安全查询、检查和诊断 Redis"
+  default_prompt: "使用 $redis-cli 安全连接目标 Redis 实例，先确认环境并执行只读探查。"
